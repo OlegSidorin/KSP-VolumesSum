@@ -166,6 +166,8 @@
                 string path = Assembly.GetExecutingAssembly().Location;
                 path = "KSP_VolumesSum.VSum";
 
+                // не понятно как создать метод
+
                 //TaskDialog.Show("123", "Ghbdtn");
 
 
