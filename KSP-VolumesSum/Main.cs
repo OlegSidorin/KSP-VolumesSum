@@ -12,36 +12,30 @@
     using adWin = Autodesk.Windows;
     using System.Resources;
 
-    class Main : IExternalApplication
+    [Autodesk.Revit.Attributes.Transaction(Autodesk.Revit.Attributes.TransactionMode.Manual)]
+    //[Autodesk.Revit.DB.Macros.AddInId("4378B252-DA00-4CE1-9462-4F3F81B644DD")]
+    public class Main : IExternalApplication
     {
+        public static string TabName { get; set; } = "КСП-ТИМ";
+        public static string PanelName { get; set; } = "Посчитать";
+        public static string PanelTransferring { get; set; } = "Посчитать";
+        public static string ButtonName { get; set; } = "SumBtn";
+        public static string ButtonText { get; set; } = "Сумма\nобъемов";
         public Result OnStartup(UIControlledApplication application)
         {
+            #region Пример интересной реализации
+            /*
+            // метод который позволяет размстить кнопку на системной панели.. но метод на нее не привязать
+
             adWin.RibbonControl ribbon = adWin.ComponentManager.Ribbon;
             
-            //List<RibbonPanel> panels = application.GetRibbonPanels();
-            string str = "";
-            //foreach (var pan in panels)
-            //{
-            //    str += pan.Name + Environment.NewLine;
-            //}
-
             adWin.RibbonTab modifyTab = ribbon.Tabs.Where(xxx => xxx.Id == "Modify").FirstOrDefault();
             adWin.RibbonPanel geometryPanel = modifyTab.Panels.Where(xxx => xxx.Source.Id == "geometry_shr").FirstOrDefault();
 
             adWin.RibbonButton button = new adWin.RibbonButton();
-
-            //var SumData = new PushButtonData("SumData", "Складывает\nобъемы", Assembly.GetExecutingAssembly().Location, "KSP_VolumesSum.VSum")
-            //{
-            //    ToolTipImage = new BitmapImage(new Uri(@"C:\Users\Sidorin_O\source\repos\KSP-VolumesSum\KSP-VolumesSum\res\sum-32.png")),
-            //    ToolTip = "Суммирует объемы элементов модели, если они есть"
-            //};
-            //PushButton SumDataBtn = panelAnnotation.AddItem(SumData) as PushButton;
-            //SumDataBtn.LargeImage = new BitmapImage(new Uri(@"C:\Users\Sidorin_O\source\repos\KSP-VolumesSum\KSP-VolumesSum\res\sum-32.png"));
-
-
             button.Name = "VSumButton";
-            button.Image = new BitmapImage(new Uri(@"C:\Users\Sidorin_O\source\repos\KSP-VolumesSum\KSP-VolumesSum\res\sum-16.png"));
-            button.LargeImage = new BitmapImage(new Uri(@"C:\Users\Sidorin_O\source\repos\KSP-VolumesSum\KSP-VolumesSum\res\sum-32.png"));
+            button.Image = new BitmapImage(new Uri(@"C:\Users\Sidorin\Source\Repos\KSP-VolumesSum\KSP-VolumesSum\res\sum-16.png"));
+            button.LargeImage = new BitmapImage(new Uri(@"C:\Users\Sidorin\Source\Repos\KSP-VolumesSum\KSP-VolumesSum\res\sum-32.png"));
             button.Id = "ID_VSumButton";
             button.AllowInStatusBar = true;
             button.AllowInToolBar = true;
@@ -62,87 +56,48 @@
             button.KeyTip = "KEYVSUM";
 
             geometryPanel.Source.Items.Add(button);
+            adWin.ComponentManager.UIElementActivated +=
+                new EventHandler<adWin.UIElementActivatedEventArgs>(CommandForButton);
 
-            //adWin.ComponentManager.UIElementActivated +=
-            //    new EventHandler<adWin.UIElementActivatedEventArgs>(CommandForButton);
-
-            //foreach (adWin.RibbonTab tab in ribbon.Tabs) 
-            //{
-            //    foreach (adWin.RibbonPanel panel in tab.Panels)
-            //    {
-            //        str += tab.Id + " : " + panel.Source.Id + Environment.NewLine;
-            //    }
-            //    str += tab.Id + Environment.NewLine;
-            //}
+            adWin.RibbonControl ribbon = adWin.ComponentManager.Ribbon;
+            foreach (adWin.RibbonTab tab in ribbon.Tabs)
+            {
+                foreach (adWin.RibbonPanel panel in tab.Panels)
+                {
+                    foreach (adWin.RibbonItem ribbonItem in panel.Source.Items)
+                    {
+                        str += tab.Id + " : " + panel.Source.Id + " : " + ribbonItem.Id + Environment.NewLine;
+                    }
+                    
+                }
+                str += tab.Id + Environment.NewLine;
+            }
+            TaskDialog.Show("123", str);
 
             //str += " -----> " + modifyTab.Id + geometryPanel.Source.Id;
 
             //TaskDialog.Show("123", str);
-            //string tabName = "КСП_1";
-            //string panelAnnotationName = "Методы";
-            //application.CreateRibbonTab();
 
-            //RibbonPanel panelAnnotation = application.CreateRibbonPanel("Изменить", "Посчитать");
+             */
+            #endregion
 
-            //var SumData = new PushButtonData("SumData", "Складывает\nобъемы", Assembly.GetExecutingAssembly().Location, "KSP_VolumesSum.VSum")
-            //{
-            //    ToolTipImage = new BitmapImage(new Uri(@"C:\Users\Sidorin_O\source\repos\KSP-VolumesSum\KSP-VolumesSum\res\sum-32.png")),
-            //    ToolTip = "Суммирует объемы элементов модели, если они есть"
-            //};
-            //var SumDataBtn = panelAnnotation.AddItem(SumData) as PushButton;
-            //SumDataBtn.LargeImage = new BitmapImage(new Uri(@"C:\Users\Sidorin_O\source\repos\KSP-VolumesSum\KSP-VolumesSum\res\sum-32.png"));
+            List<RibbonPanel> panels = application.GetRibbonPanels();
+            string str = "";
 
+            application.CreateRibbonTab(TabName);
+            RibbonPanel panelVS = application.CreateRibbonPanel(TabName, PanelName);
 
+            PushButtonData SumBtnData = new PushButtonData(ButtonName, ButtonText, Assembly.GetExecutingAssembly().Location, "KSP_VolumesSum.VSum")
+            {
+                ToolTipImage = new BitmapImage(new Uri(@"C:\Users\Sidorin\Source\Repos\KSP-VolumesSum\KSP-VolumesSum\res\sum-32.png")),
+                ToolTip = "Суммирует объемы элементов модели, если они есть"
+            };
+            PushButton SumBtn = panelVS.AddItem(SumBtnData) as PushButton;
+            SumBtn.LargeImage = new BitmapImage(new Uri(@"C:\Users\Sidorin\Source\Repos\KSP-VolumesSum\KSP-VolumesSum\res\sum-32.png"));
+            
+            PlaceButtonOnModifyRibbon();
 
-
-
-
-            //foreach (adWin.RibbonTab tab in ribbon.Tabs)
-            //{
-            //    if (tab.Name == "Архитектура")
-            //    {
-            //        foreach (adWin.RibbonPanel panel
-            //          in tab.Panels)
-            //        {
-            //            if (panel.Source.Name == "Строительство")
-            //            {
-            //                adWin.RibbonButton button
-            //                  = new adWin.RibbonButton();
-
-            //                button.Name = "TbcButtonName";
-            //                button.Image = new BitmapImage(new Uri(@"C:\Users\Sidorin_O\source\repos\KSP-VolumesSum\KSP-VolumesSum\res\sum-32.png"));
-            //                button.LargeImage = new BitmapImage(new Uri(@"C:\Users\Sidorin_O\source\repos\KSP-VolumesSum\KSP-VolumesSum\res\sum-32.png"));
-            //                button.Id = "ID_TBC_BUTTON";
-            //                button.AllowInStatusBar = true;
-            //                button.AllowInToolBar = true;
-            //                button.GroupLocation = Autodesk.Private
-            //                  .Windows.RibbonItemGroupLocation.Middle;
-            //                button.IsEnabled = true;
-            //                button.IsToolTipEnabled = true;
-            //                button.IsVisible = true;
-            //                button.ShowImage = true; //  true;
-            //                button.ShowText = true;
-            //                button.ShowToolTipOnDisabled = true;
-            //                button.Text = "The Building Coder";
-            //                button.ToolTip = "Open The Building "
-            //                  + "Coder blog on the Revit API";
-            //                button.MinHeight = 0;
-            //                button.MinWidth = 0;
-            //                button.Size = adWin.RibbonItemSize.Large;
-            //                button.ResizeStyle = adWin.RibbonItemResizeStyles.HideText;
-            //                button.IsCheckable = true;
-            //                button.KeyTip = "TBC";
-
-
-            //                adWin.ComponentManager.UIElementActivated += 
-            //                    new EventHandler<adWin.UIElementActivatedEventArgs>(CommandForButton);
-
-            //                return Result.Succeeded;
-            //            }
-            //        }
-            //    }
-            //}
-
+            
 
             return Result.Succeeded;
         }
@@ -152,36 +107,133 @@
             return Result.Succeeded;
         }
 
-        void CommandForButton(object sender, adWin.UIElementActivatedEventArgs e)
+        public void PlaceButtonOnModifyRibbon()
         {
-            if (e != null
-              && e.Item != null
-              && e.Item.Id != null
-              && e.Item.Id == "ID_VSumButton")
+
+            try
             {
-                // Perform the button action
+                String SystemTabId = "Modify";
+                String SystemPanelId = "modify_shr";
 
-                // Local file
+                adWin.RibbonControl adWinRibbon = adWin.ComponentManager.Ribbon;
 
-                string path = Assembly.GetExecutingAssembly().Location;
-                path = "KSP_VolumesSum.VSum";
+                adWin.RibbonTab adWinSysTab = null;
+                adWin.RibbonPanel adWinSysPanel = null;
 
-                // не понятно как создать метод
+                adWin.RibbonTab adWinApiTab = null;
+                adWin.RibbonPanel adWinApiPanel = null;
+                adWin.RibbonItem adWinApiItem = null;
 
-                //TaskDialog.Show("123", "Ghbdtn");
+                foreach (adWin.RibbonTab ribbonTab in adWinRibbon.Tabs)
+                {
+                    // Look for the specified system tab
+
+                    if (ribbonTab.Id == SystemTabId)
+                    {
+                        adWinSysTab = ribbonTab;
+
+                        foreach (adWin.RibbonPanel ribbonPanel in ribbonTab.Panels)
+                        {
+                            // Look for the specified panel 
+                            // within the system tab
+
+                            if (ribbonPanel.Source.Id == SystemPanelId)
+                            {
+                                adWinSysPanel = ribbonPanel;
+                            }
+                        }
+                    }
+                    else
+                    {
+                        // Look for our API tab
+
+                        if (ribbonTab.Id == Main.TabName)
+                        {
+                            adWinApiTab = ribbonTab;
+
+                            foreach (adWin.RibbonPanel ribbonPanel in ribbonTab.Panels)
+                            {
+                                if (ribbonPanel.Source.Id == "CustomCtrl_%" + Main.TabName + "%" + Main.PanelName)
+                                {
+                                    foreach (adWin.RibbonItem ribbonItem in ribbonPanel.Source.Items)
+                                    {
+                                        if (ribbonItem.Id == "CustomCtrl_%CustomCtrl_%" + Main.TabName + "%" + Main.PanelName + "%" + Main.ButtonName)
+                                        {
+                                            adWinApiItem = ribbonItem;
+                                        }
+                                    }
+                                }
+
+                                if (ribbonPanel.Source.Id == "CustomCtrl_%" + Main.TabName + "%" + Main.PanelName)
+                                {
+                                    adWinApiPanel = ribbonPanel;
+                                }
+                            }
+                        }
+                    }
+                }
 
 
+                if (adWinSysTab != null
+                  && adWinSysPanel != null
+                  && adWinApiTab != null
+                  && adWinApiPanel != null
+                   && adWinApiItem != null)
+                {
+                    adWinSysTab.Panels.Add(adWinApiPanel);
+                    adWinApiTab.IsVisible = false;
+                    //adWinApiPanel.Source.Items.Add(adWinApiItem);
+                    //adWinApiTab.Panels.Remove(adWinApiPanel);
+                }
 
-                //path = Path.Combine(
-                //  Path.GetDirectoryName(path),
-                //  "test.html");
 
-                //// Internet URL
-
-                //path = "http://thebuildingcoder.typepad.com";
-
-                //Process.Start(path);
             }
+
+            #region catch and finally
+            catch (Exception ex)
+            {
+                TaskDialog.Show("me", ex.Message + Environment.NewLine + ex.InnerException);
+            }
+            finally
+            {
+            }
+            #endregion
         }
+
+        #region Просто интересный метод
+        //void CommandForButton(object sender, adWin.UIElementActivatedEventArgs e)
+        //{
+        //    if (e != null
+        //      && e.Item != null
+        //      && e.Item.Id != null
+        //      && e.Item.Id == "ID_VSumButton")
+        //    {
+        //        /*
+        //         Perform the button action
+
+        //         Local file
+
+        //         string path = Assembly.GetExecutingAssembly().Location;
+        //         path = "KSP_VolumesSum.VSum";
+
+        //         // не понятно как создать метод
+
+        //        TaskDialog.Show("123", "Ghbdtn");
+
+
+
+        //        path = Path.Combine(
+        //          Path.GetDirectoryName(path),
+        //          "test.html");
+
+        //        // Internet URL
+
+        //        path = "http://thebuildingcoder.typepad.com";
+
+        //        Process.Start(path);
+        //        */
+        //    }
+        //}
+        #endregion
     }
 }

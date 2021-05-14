@@ -1,11 +1,11 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <RevitAddIns>
 	<AddIn Type="Application">
-		<Name>КПСП-СО</Name>
-		<Assembly>C:\Users\Sidorin_O\source\repos\KSP-VolumesSum\KSP-VolumesSum\bin\x64\Debug\KSP-VolumesSum.dll</Assembly>
+		<Name>KSP_VolumesSum</Name>
+		<Assembly>C:\Users\Sidorin\Source\Repos\KSP-VolumesSum\KSP-VolumesSum\bin\x64\Debug\KSP-VolumesSum.dll</Assembly>
 		<AddInId>34F2D12F-4104-4527-8768-584DE06F673E</AddInId>
 		<FullClassName>KSP_VolumesSum.Main</FullClassName>
-		<VendorId>KSP1</VendorId>
-		<VendorDescription>KSP description1</VendorDescription>
+		<VendorId>KSP</VendorId>
+		<VendorDescription>KSP description</VendorDescription>
 	</AddIn>
 </RevitAddIns>

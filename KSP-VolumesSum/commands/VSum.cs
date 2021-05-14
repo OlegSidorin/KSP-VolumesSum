@@ -11,7 +11,8 @@
 
     [Autodesk.Revit.Attributes.Transaction(Autodesk.Revit.Attributes.TransactionMode.Manual)]
     [Autodesk.Revit.Attributes.Regeneration(Autodesk.Revit.Attributes.RegenerationOption.Manual)]
-    class VSum : IExternalCommand
+	//[Autodesk.Revit.DB.Macros.AddInId("84FD9498-60E1-45D1-95BE-DC951F66B9FC")]
+	class VSum : IExternalCommand
     {
         public Result Execute(ExternalCommandData commandData, ref string message, ElementSet elements)
         {
