@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31229.75
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KSP-VolumesSum", "KSP-VolumesSum\KSP-VolumesSum.csproj", "{3FC68E7C-5036-483B-B887-20B36556B922}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Debug|x64 = Debug|x64
+		Release|Any CPU = Release|Any CPU
+		Release|x64 = Release|x64
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{3FC68E7C-5036-483B-B887-20B36556B922}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3FC68E7C-5036-483B-B887-20B36556B922}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3FC68E7C-5036-483B-B887-20B36556B922}.Debug|x64.ActiveCfg = Debug|x64
+		{3FC68E7C-5036-483B-B887-20B36556B922}.Debug|x64.Build.0 = Debug|x64
+		{3FC68E7C-5036-483B-B887-20B36556B922}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3FC68E7C-5036-483B-B887-20B36556B922}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3FC68E7C-5036-483B-B887-20B36556B922}.Release|x64.ActiveCfg = Release|x64
+		{3FC68E7C-5036-483B-B887-20B36556B922}.Release|x64.Build.0 = Release|x64
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {47A7F12A-7DC4-4B97-903A-54A4CF59D948}
+	EndGlobalSection
+EndGlobal
