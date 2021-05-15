@@ -11,6 +11,7 @@
     using Autodesk.Revit.DB;
     using adWin = Autodesk.Windows;
     using System.Resources;
+    using System.IO;
 
     [Autodesk.Revit.Attributes.Transaction(Autodesk.Revit.Attributes.TransactionMode.Manual)]
     //[Autodesk.Revit.DB.Macros.AddInId("4378B252-DA00-4CE1-9462-4F3F81B644DD")]
@@ -87,14 +88,16 @@
             application.CreateRibbonTab(TabName);
             RibbonPanel panelVS = application.CreateRibbonPanel(TabName, PanelName);
 
-            PushButtonData SumBtnData = new PushButtonData(ButtonName, ButtonText, Assembly.GetExecutingAssembly().Location, "KSP_VolumesSum.VSum")
+            string path = Assembly.GetExecutingAssembly().Location;
+
+            PushButtonData SumBtnData = new PushButtonData(ButtonName, ButtonText, path, "KSP_VolumesSum.VSum")
             {
-                ToolTipImage = new BitmapImage(new Uri(@"C:\Users\Sidorin\Source\Repos\KSP-VolumesSum\KSP-VolumesSum\res\sum-32.png")),
+                ToolTipImage = new BitmapImage(new Uri(Path.GetDirectoryName(path) + "\\res\\sum-32.png", UriKind.Absolute)),
                 ToolTip = "Суммирует объемы элементов модели, если они есть"
             };
             PushButton SumBtn = panelVS.AddItem(SumBtnData) as PushButton;
-            SumBtn.LargeImage = new BitmapImage(new Uri(@"C:\Users\Sidorin\Source\Repos\KSP-VolumesSum\KSP-VolumesSum\res\sum-32.png"));
-            
+            SumBtn.LargeImage = new BitmapImage(new Uri(Path.GetDirectoryName(path) + "\\res\\sum-32.png", UriKind.Absolute));
+
             PlaceButtonOnModifyRibbon();
 
             
